@@ -1,0 +1,23 @@
+#ifndef _PHYSICS_H
+#define _PHYSICS_H
+
+#include <SFML/Graphics.hpp>
+
+class Physics
+{
+	private:
+
+	public:
+		float PLAYER_SIZE;
+		float ENEMY_SIZE, BULLET_SIZE, CURSOR_SIZE;
+		float PLAYER_SPEED, BULLET_SPEED, BULLET_SPACING, ENEMY_SPEED;
+		float ENEMY_SPAWN_RATE;
+		int SECTOR_SIZE;
+
+		float playerRotation;
+
+		Physics(void);
+		~Physics(void);
+};
+
+#endif

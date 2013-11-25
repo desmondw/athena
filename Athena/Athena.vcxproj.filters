@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{583ae6f7-f5b8-4a67-a979-5df3c254dd93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{1b712087-0419-423c-b493-0fc59ad541c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\gfx">
+      <UniqueIdentifier>{046ef285-7a7f-4307-8446-9c34320c4b96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\sfx">
+      <UniqueIdentifier>{fa841ab8-86c2-4bde-b50c-cfd8797faac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\gfx\blocks">
+      <UniqueIdentifier>{d4011210-c210-4ea5-935b-48c8159ae819}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Video.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="DataStore.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Sector.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Video.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStore.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Sector.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\arial.ttf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin\sfx\shoot.wav">
+      <Filter>Resource Files\sfx</Filter>
+    </None>
+    <None Include="bin\gfx\Bullet.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\Cursor.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\blocks\restricted.png">
+      <Filter>Resource Files\gfx\blocks</Filter>
+    </None>
+    <None Include="bin\gfx\blocks\dirt.png">
+      <Filter>Resource Files\gfx\blocks</Filter>
+    </None>
+    <None Include="bin\gfx\blocks\empty.png">
+      <Filter>Resource Files\gfx\blocks</Filter>
+    </None>
+    <None Include="bin\gfx\blocks\stone.png">
+      <Filter>Resource Files\gfx\blocks</Filter>
+    </None>
+    <None Include="bin\sfx\drill.wav">
+      <Filter>Resource Files\sfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerDrilling0.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerDrilling1.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerMoving0.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerMoving1.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerMovingDrilling0.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerMovingDrilling1.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerNormal0.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+    <None Include="bin\gfx\PlayerNormal1.png">
+      <Filter>Resource Files\gfx</Filter>
+    </None>
+  </ItemGroup>
+</Project>

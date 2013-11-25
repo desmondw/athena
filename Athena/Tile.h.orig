@@ -1,0 +1,21 @@
+#ifndef _TILE_H
+#define _TILE_H
+
+#include <SFML/Graphics.hpp>
+
+class Tile
+{
+	private:
+
+	public:
+		sf::Image texture;
+		sf::Sprite sprite;
+		bool passable;
+
+		Tile(void);
+		~Tile(void);
+		void setImageRigid();
+		void fillSprite();
+};
+
+#endif

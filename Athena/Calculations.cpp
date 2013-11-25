@@ -1,0 +1,231 @@
+#include "Calculations.h"
+
+#define PI 3.14159265
+
+Calculations::Calculations(void)
+{
+}
+
+
+Calculations::~Calculations(void)
+{
+}
+
+
+void Calculations::nextFrame(sf::RenderWindow& mainWindow, DataStore& data)
+{
+	frameTime = mainWindow.GetFrameTime();
+
+	playerMovement(data);
+	playerDrilling(data);
+	playerCollision(data);
+	playerRotation(data);
+	bulletFiring(data);
+	bulletMovement(data);
+
+	data.updateCamera();
+	if (animationTimer.GetElapsedTime() > .1)
+	{
+		data.nextAnimationFrame();
+		animationTimer.Reset();
+	}
+}
+
+void Calculations::playerMovement(DataStore& data)
+{
+	data.playerPosLast[0] = data.playerPos[0];
+	data.playerPosLast[1] = data.playerPos[1];
+
+	bool leftPressed = false, rightPressed = false, upPressed = false, downPressed = false;
+
+	//left, right, up, down
+	if (data.Key.A || data.Key.Left || data.Key.Numpad4)
+		leftPressed = true;
+	if (data.Key.D || data.Key.Right || data.Key.Numpad6)
+		rightPressed = true;
+	if (data.Key.W || data.Key.Up || data.Key.Numpad8)
+		upPressed = true;
+	if (data.Key.S || data.Key.Down || data.Key.Numpad2)
+		downPressed = true;
+
+	//up-left, up-right, down-left, down-right
+	if (data.Key.Numpad7)
+	{
+		upPressed = true;
+		leftPressed = true;
+	}
+	if (data.Key.Numpad9)
+	{
+		upPressed = true;
+		rightPressed = true;
+	}
+	if (data.Key.Numpad1)
+	{
+		downPressed = true;
+		leftPressed = true;
+	}
+	if (data.Key.Numpad3)
+	{
+		downPressed = true;
+		rightPressed = true;
+	}
+
+	float normalSpeed = data.physics.PLAYER_SPEED * frameTime;
+	float diagonalSpeed = sqrt(pow(data.physics.PLAYER_SPEED * frameTime, 2) / 2);
+	
+	data.playerMovement[0] = 0;
+	data.playerMovement[1] = 0;
+
+	//calculates speed and executes
+	if (leftPressed)
+	{
+		if (upPressed)
+		{
+			data.playerPos[0] -= diagonalSpeed;
+			data.playerPos[1] -= diagonalSpeed;
+			data.playerMovement[0] = -1;
+			data.playerMovement[1] = -1;
+		}
+		else if (downPressed)
+		{
+			data.playerPos[0] -= diagonalSpeed;
+			data.playerPos[1] += diagonalSpeed;
+			data.playerMovement[0] = -1;
+			data.playerMovement[1] = 1;
+		}
+		else
+		{
+			data.playerPos[0] -= normalSpeed;
+			data.playerMovement[0] = -1;
+		}
+
+		data.playerMoving = true;
+	}
+	else if (rightPressed)
+	{
+		if (upPressed)
+		{
+			data.playerPos[0] += diagonalSpeed;
+			data.playerPos[1] -= diagonalSpeed;
+			data.playerMovement[0] = 1;
+			data.playerMovement[1] = -1;
+		}
+		else if (downPressed)
+		{
+			data.playerPos[0] += diagonalSpeed;
+			data.playerPos[1] += diagonalSpeed;
+			data.playerMovement[0] = 1;
+			data.playerMovement[1] = 1;
+		}
+		else
+		{
+			data.playerPos[0] += normalSpeed;
+			data.playerMovement[0] = 1;
+		}
+
+		data.playerMoving = true;
+	}
+	else if (upPressed)
+	{
+		data.playerPos[1] -= normalSpeed;
+		data.playerMovement[1] = -1;
+		data.playerMoving = true;
+	}
+	else if (downPressed)
+	{
+		data.playerPos[1] += normalSpeed;
+		data.playerMovement[1] = 1;
+		data.playerMoving = true;
+	}
+	else
+		data.playerMoving = false;
+}
+
+void Calculations::playerDrilling(DataStore& data)
+{
+	if (data.Mouse.Right)
+		data.playerDrilling = true;
+	else
+		data.playerDrilling = false;
+}
+
+void Calculations::playerCollision(DataStore& data)
+{
+	playerTileCollision(data, data.playerPos[0], data.playerPos[1] - data.physics.PLAYER_SIZE/2); //top
+	playerTileCollision(data, data.playerPos[0], data.playerPos[1] + data.physics.PLAYER_SIZE/2); //bottom
+	playerTileCollision(data, data.playerPos[0] - data.physics.PLAYER_SIZE/2, data.playerPos[1]); //left
+	playerTileCollision(data, data.playerPos[0] + data.physics.PLAYER_SIZE/2, data.playerPos[1]); //right
+	playerTileCollision(data, data.playerPos[0] - data.physics.PLAYER_SIZE/2, data.playerPos[1] - data.physics.PLAYER_SIZE/2); //top left
+	playerTileCollision(data, data.playerPos[0] + data.physics.PLAYER_SIZE/2, data.playerPos[1] - data.physics.PLAYER_SIZE/2); //top right
+	playerTileCollision(data, data.playerPos[0] - data.physics.PLAYER_SIZE/2, data.playerPos[1] + data.physics.PLAYER_SIZE/2); //bottom left
+	playerTileCollision(data, data.playerPos[0] + data.physics.PLAYER_SIZE/2, data.playerPos[1] + data.physics.PLAYER_SIZE/2); //bottom right
+}
+
+void Calculations::playerTileCollision(DataStore& data, float x, float y)
+{
+	int tileType = data.getTileType(x, y);
+
+	if (data.playerMoving) //if player is moving
+	{
+		if (data.playerDrilling && data.blockList[tileType].drillable) //if player is drilling and tile is drillable
+		{
+			//destroy tile
+			data.destroyTile(data.getTileID(x, y));
+			data.queueSound(Sound::Drill);
+		}
+		else if (!data.blockList[tileType].passable) //if tile is not passable
+		{
+			//undo player movement
+			data.playerPos[0] = data.playerPosLast[0];
+			data.playerPos[1] = data.playerPosLast[1];
+		}
+	}
+}
+
+void Calculations::playerRotation(DataStore& data)
+{
+	data.physics.playerRotation = -atan2((data.cursorPos[1] - data.playerPos[1]), (data.cursorPos[0] - data.playerPos[0])) * (180 / PI) - 90;
+}
+
+void Calculations::bulletMovement(DataStore& data)
+{
+	float newX, newY;
+
+	for(int i=0; i<data.bulletList.size(); i++)
+	{
+		newX = data.bulletList[i][0] + data.bulletList[i][2] * frameTime;
+		newY = data.bulletList[i][1] + data.bulletList[i][3] * frameTime;
+
+		//if not within LOADED SECTORS after this frame's bullet movement, delete bullet
+		if (!((newX >= -data.settings.WIN_WIDTH * 5 && newX < data.settings.WIN_WIDTH * 5) && (newY >= -data.settings.WIN_WIDTH * 10 && newY < data.settings.WIN_WIDTH * 10)))
+			data.bulletList.erase(data.bulletList.begin() + i);
+		else //else update bullet position
+		{
+			data.bulletList[i][0] = newX;
+			data.bulletList[i][1] = newY;
+		}
+	}
+}
+
+void Calculations::bulletFiring(DataStore& data)
+{
+	if (data.Mouse.Left && bulletTimer.GetElapsedTime() > data.physics.BULLET_SPACING)
+	{
+		float angle = atan2((data.cursorPos[1] - data.playerPos[1]), (data.cursorPos[0] - data.playerPos[0]));
+		float xSpeed = cos(angle) * data.physics.BULLET_SPEED;
+		float ySpeed = sin(angle) * data.physics.BULLET_SPEED;
+
+		float inertia;
+		if (data.playerMovement[0] == 0 || data.playerMovement[1] == 0)
+			inertia = data.physics.PLAYER_SPEED;
+		else
+			inertia = sqrt(pow(data.physics.PLAYER_SPEED, 2) / 2);
+		
+		xSpeed += inertia * data.playerMovement[0];
+		ySpeed += inertia * data.playerMovement[1];
+
+		data.addBullet(data.playerPos[0], data.playerPos[1], xSpeed, ySpeed);
+		bulletTimer.Reset();
+		data.queueSound(Sound::Shoot);
+	}
+}
